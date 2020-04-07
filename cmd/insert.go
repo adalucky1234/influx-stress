@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"bytes"
+	"encoding/base64"
 	"errors"
 	"fmt"
 	"math"
@@ -31,6 +32,7 @@ var (
 	strict, kapacitorMode                bool
 	recordStats                          bool
 	tlsSkipVerify                        bool
+	useBasicAuth                         bool
 )
 
 const (
@@ -185,9 +187,14 @@ func init() {
 	insertCmd.Flags().StringVar(&dump, "dump", "", "Dump to given file instead of writing over HTTP")
 	insertCmd.Flags().BoolVarP(&strict, "strict", "", false, "Strict mode will exit as soon as an error or unexpected status is encountered")
 	insertCmd.Flags().BoolVarP(&tlsSkipVerify, "tls-skip-verify", "", false, "Skip verify in for TLS")
+	insertCmd.Flags().BoolVarP(&useBasicAuth, "use-basic-auth", "", false, "Use HTTP basic authorization for write")
 }
 
 func client() write.Client {
+	auth := ""
+	if useBasicAuth {
+		auth = "Basic " + base64.StdEncoding.EncodeToString([]byte(username+":"+password))
+	}
 	cfg := write.ClientConfig{
 		BaseURL:         host,
 		Database:        db,
@@ -198,6 +205,7 @@ func client() write.Client {
 		Consistency:     consistency,
 		TLSSkipVerify:   tlsSkipVerify,
 		Gzip:            gzip != 0,
+		Authorization:   auth,
 	}
 
 	if dump != "" {
