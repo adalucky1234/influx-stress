@@ -11,10 +11,10 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/daniel-lawrence/influx-stress/lineprotocol"
-	"github.com/daniel-lawrence/influx-stress/point"
-	"github.com/daniel-lawrence/influx-stress/stress"
-	"github.com/daniel-lawrence/influx-stress/write"
+	"github.com/aiven/influx-stress/lineprotocol"
+	"github.com/aiven/influx-stress/point"
+	"github.com/aiven/influx-stress/stress"
+	"github.com/aiven/influx-stress/write"
 	"github.com/spf13/cobra"
 )
 
