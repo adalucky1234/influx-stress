@@ -29,6 +29,8 @@ type ClientConfig struct {
 	Consistency     string
 	TLSSkipVerify   bool
 
+	Authorization string
+
 	Gzip bool
 }
 
@@ -99,6 +101,9 @@ func (c *client) Send(b []byte) (latNs int64, statusCode int, body string, err e
 	req.Header.SetContentTypeBytes([]byte("text/plain"))
 	req.Header.SetMethodBytes([]byte("POST"))
 	req.Header.SetRequestURIBytes(c.url)
+	if c.cfg.Authorization != "" {
+		req.Header.Set("Authorization", c.cfg.Authorization)
+	}
 	if c.cfg.Gzip {
 		req.Header.SetBytesKV([]byte("Content-Encoding"), []byte("gzip"))
 	}
