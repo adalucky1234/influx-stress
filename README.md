@@ -4,7 +4,7 @@
 It supports influx db v2 using v1-compatible API. The change made is to add support of token auth. To make it work with influx db v2, follow below steps:
 1. Create bucket for stress table, namely stress.
 2. Create bueckt for stress_stats table, namely stress_stats.
-3. Create mapping from v1 table to v2 bucket by command `influx v1 dbrp create --db stress --org <your_org> --bucket-id <bucket_id_for_stress> --default --rp=Forever` `influx v1 dbrp create --db stress_stats --org <your_org> --bucket-id <bucket_id_for_stress_stats> --default --rp=Forever`
+3. Create mapping from v1 table to v2 bucket by command `influx v1 dbrp create --db stress --org <your_org> --bucket-id <bucket_id_for_stress> --default --rp=Forever` and `influx v1 dbrp create --db stress_stats --org <your_org> --bucket-id <bucket_id_for_stress_stats> --default --rp=Forever`
 4. Follow below build instruction.
 
 ## Build Instructions
