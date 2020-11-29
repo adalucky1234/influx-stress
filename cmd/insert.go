@@ -193,7 +193,7 @@ func init() {
 func client() write.Client {
 	auth := ""
 	if useBasicAuth {
-		auth = "Basic " + base64.StdEncoding.EncodeToString([]byte(username+":"+password))
+		auth = "Basic " + username+":"+password
 	}
 	cfg := write.ClientConfig{
 		BaseURL:         host,
