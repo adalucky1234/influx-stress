@@ -33,6 +33,7 @@ var (
 	recordStats                          bool
 	tlsSkipVerify                        bool
 	useBasicAuth                         bool
+	useTokenAuth                         bool
 )
 
 const (
@@ -188,12 +189,15 @@ func init() {
 	insertCmd.Flags().BoolVarP(&strict, "strict", "", false, "Strict mode will exit as soon as an error or unexpected status is encountered")
 	insertCmd.Flags().BoolVarP(&tlsSkipVerify, "tls-skip-verify", "", false, "Skip verify in for TLS")
 	insertCmd.Flags().BoolVarP(&useBasicAuth, "use-basic-auth", "", false, "Use HTTP basic authorization for write")
+	insertCmd.Flags().BoolVarP(&useTokenAuth, "use-token-auth", "", false, "Use token authorization for write. This option is for v2 compatibility. password in this case is the token.")
 }
 
 func client() write.Client {
 	auth := ""
 	if useBasicAuth {
-		auth = "Basic " + username+":"+password
+		auth = "Basic " + base64.StdEncoding.EncodeToString([]byte(username+":"+password))
+	} else if useTokenAuth {
+		auth = "Token " + password
 	}
 	cfg := write.ClientConfig{
 		BaseURL:         host,

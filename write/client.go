@@ -208,10 +208,12 @@ func writeURLFromConfig(cfg ClientConfig) string {
 	params := url.Values{}
 	params.Set("db", cfg.Database)
 	if cfg.User != "" {
-		params.Set("u", cfg.User)
+		// do not pass user in params, use basic auth!
+		// params.Set("u", cfg.User)
 	}
 	if cfg.Pass != "" {
-		params.Set("p", cfg.Pass)
+		// do not pass user in params, use basic auth!
+		// params.Set("p", cfg.Pass)
 	}
 	if cfg.RetentionPolicy != "" {
 		params.Set("rp", cfg.RetentionPolicy)
