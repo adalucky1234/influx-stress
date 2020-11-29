@@ -1,10 +1,17 @@
 # Stress tool
 
+## What is new
+It supports influx db v2 using v1-compatible API. The change made is to add support of token auth. To make it work with influx db v2, follow below steps:
+1. Create bucket for stress table, namely stress.
+2. Create bueckt for stress_stats table, namely stress_stats.
+3. Create mapping from v1 table to v2 bucket by command `influx v1 dbrp create --db stress --org <your_org> --bucket-id <bucket_id_for_stress> --default --rp=Forever` `influx v1 dbrp create --db stress_stats --org <your_org> --bucket-id <bucket_id_for_stress_stats> --default --rp=Forever`
+4. Follow below build instruction.
+
 ## Build Instructions
 Building `influx-stress` requires the Golang toolchain. If you do not have the Golang toolchain installed
 please follow the instructions [golang.org/doc/install](https://golang.org/doc/install)
 ```sh
-go get -v github.com/aiven/influx-stress
+go get -v github.com/adalucky1234/influx-stress
 ```
 
 ## Top Level Command
@@ -39,7 +46,7 @@ Flags:
   -f, --fast                 Run as fast as possible
       --gzip int             If non-zero, gzip write bodies with given compression level. 1=best speed, 9=best compression, -1=gzip default.
       --host string          Address of InfluxDB instance (default "http://localhost:8086")
-      --pass string          Password for user
+      --pass string          Password for user (the token for v2)
   -n, --points uint          number of points that will be written (default 18446744073709551615)
       --pps uint             Points Per Second (default 200000)
   -p, --precision string     Resolution of data being written (default "n")
@@ -48,10 +55,14 @@ Flags:
   -r, --runtime duration     Total time that the test will run (default 2562047h47m16.854775807s)
   -s, --series int           number of series that will be written (default 100000)
       --strict               Strict mode will exit as soon as an error or unexpected status is encountered
-      --user string          User to write data as
+      --use-token-auth bool  For db v2, set it to true, and set token in --pass.
 ```
 
 ## Example Usage
+Runs towards db V2
+```bash
+influx-stress insert --kapacitor=true --use-token-auth=true --pass <yoru_token> --host http://127.0.0.1:8086 cpu,host=server,location=us-west,id=myid
+```
 
 Runs forever
 ```bash
