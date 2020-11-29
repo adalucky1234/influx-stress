@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/daniel-lawrence/influx-stress/lineprotocol"
+	"github.com/aiven/influx-stress/lineprotocol"
 )
 
 func TestInt_WriteTo(t *testing.T) {

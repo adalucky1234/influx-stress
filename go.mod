@@ -1,4 +1,4 @@
-module github.com/daniel-lawrence/influx-stress
+module github.com/aiven/influx-stress
 
 go 1.13
 
